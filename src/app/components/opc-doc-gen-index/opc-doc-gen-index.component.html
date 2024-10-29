@@ -1,0 +1,12 @@
+<h1>OPC Doc Generation Service</h1>
+
+<form (ngSubmit)="onSubmit()">
+  <label for="targetspec">Target Specification: </label>
+  <input
+    type="text"
+    name="targetspec"
+    id="targetspec"
+    [(ngModel)]="formData.targetspec"
+  />
+  <button type="submit">Submit</button>
+</form>
