@@ -15,6 +15,7 @@ export class OpcDocGenIndexComponent {
   formData = {
     targetspec: '',
   };
+  rendered_view: string = '';
 
   constructor(private siomeApiProvider: SiomeApiProviderService) { }
 
@@ -30,7 +31,13 @@ export class OpcDocGenIndexComponent {
     );
     const target = this.formData.targetspec!;
     const nns = await this.siomeApi.getNamespaceArray();
-    const specs = nns.map(async (ins) => await this.siomeApi.getNamespace(ins));
+    let specs = [];
+    for (let ins in nns) {
+      await this.siomeApi.newLogEntry(`Adding namespace ${ins} to catalogue`, "info");
+      const curr_spec = await this.siomeApi.exportXML([ins], true, true);
+      specs.push(curr_spec)
+    }
     const converter = new SiomeConverter(target, specs);
+    this.rendered_view = converter.write()
   }
 }

@@ -7,16 +7,18 @@ import { name, version, as_web_component } from '../config';
 import { HelloWorldComponent } from './components/hello-world/hello-world.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
+import { OpcDocGenIndexComponent } from './components/opc-doc-gen-index/opc-doc-gen-index.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HelloWorldComponent,
+    OpcDocGenIndexComponent
   ],
   imports: [
-    BrowserModule, 
-    FormsModule, 
+    BrowserModule,
+    FormsModule,
     BrowserAnimationsModule,
     MatButtonModule
   ],
@@ -24,7 +26,7 @@ import {MatButtonModule} from '@angular/material/button';
   bootstrap: as_web_component ? [] : [AppComponent],
 })
 export class AppModule {
-  constructor(private injector: Injector) {}
+  constructor(private injector: Injector) { }
 
   ngDoBootstrap() {
     if (as_web_component) {
