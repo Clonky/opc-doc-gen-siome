@@ -6,8 +6,7 @@ import { ISiomeApi } from '../../shared/public-api/interfaces/siome-api.interfac
 
 @Component({
   selector: 'app-opc-doc-gen-index',
-  standalone: true,
-  imports: [],
+  standalone: false,
   templateUrl: './opc-doc-gen-index.component.html',
   styleUrl: './opc-doc-gen-index.component.css',
 })
@@ -31,13 +30,21 @@ export class OpcDocGenIndexComponent {
     );
     const target = this.formData.targetspec!;
     const nns = await this.siomeApi.getNamespaceArray();
-    let specs = [];
-    for (let ins in nns) {
+    await this.siomeApi.newLogEntry("Found the following namespaces:", "info")
+    await this.siomeApi.newLogEntry(`Found ${nns.length} namespaces`, "info");
+    const specs: string[] = [];
+    for (var ins of nns) {
       await this.siomeApi.newLogEntry(`Adding namespace ${ins} to catalogue`, "info");
-      const curr_spec = await this.siomeApi.exportXML([ins], true, true);
-      specs.push(curr_spec)
+      let res = await this.siomeApi.getNodesetAsString([ins], true, true);
+      await this.siomeApi.newLogEntry(`${res}`, "info");
+      specs.push(res);
     }
     const converter = new SiomeConverter(target, specs);
-    this.rendered_view = converter.write()
+    try {
+      this.rendered_view = converter.write()
+    } catch (e) {
+      await this.siomeApi.newLogEntry(`error: ${e}`, "error");
+    }
+    await this.siomeApi.newLogEntry(`result=\n${this.rendered_view}`, "info")
   }
 }
