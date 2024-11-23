@@ -39,11 +39,15 @@ export class OpcDocGenIndexComponent {
       await this.siomeApi.newLogEntry(`${res}`, "info");
       specs.push(res);
     }
-    const converter = new SiomeConverter(target, specs);
     try {
-      this.rendered_view = converter.write()
+      const converter = new SiomeConverter(target, specs);
+      try {
+        this.rendered_view = converter.write()
+      } catch (e) {
+        await this.siomeApi.newLogEntry(`error: ${e}`, "error");
+      }
     } catch (e) {
-      await this.siomeApi.newLogEntry(`error: ${e}`, "error");
+      await this.siomeApi.newLogEntry(`error creating converter: ${e}`, "error")
     }
     await this.siomeApi.newLogEntry(`result=\n${this.rendered_view}`, "info")
   }
