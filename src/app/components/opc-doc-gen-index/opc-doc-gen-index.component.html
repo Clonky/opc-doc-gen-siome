@@ -4,7 +4,8 @@
   <div id="form-container">
     <form (ngSubmit)="onSubmit()">
       <label for="targetspec">Target Specification: </label>
-      <input type="text" name="targetspec" id="targetspec" [(ngModel)]="formData.targetspec" />
+      <input type="text" name="targetspec" id="targetspec" placeholder="http://opcfoundation.org/UA/"
+        [(ngModel)]="formData.targetspec" />
       <button type="submit">Submit</button>
     </form>
   </div>
