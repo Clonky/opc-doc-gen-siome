@@ -23,18 +23,19 @@ export class OpcDocGenIndexComponent {
     return this.siomeApiProvider.siomeApi!;
   }
 
-  async prepare_nodesets(): Promise<string[]> {
+  async prepare_nodesets(): Promise<Document[]> {
     const nns = await this.siomeApi.getNamespaceArray();
     await this.siomeApi.newLogEntry('Found the following namespaces:', 'info');
     await this.siomeApi.newLogEntry(`Found ${nns.length} namespaces`, 'info');
-    const specs: string[] = [];
+    const specs: Document[] = [];
+    const parser = new DOMParser();
     for (const ins of nns) {
       await this.siomeApi.newLogEntry(
         `Adding namespace ${ins} to catalogue`,
         'info',
       );
       const res = await this.siomeApi.getNodesetAsString([ins], true, true);
-      specs.push(res);
+      specs.push(parser.parseFromString(res, 'text/xml'));
     }
     return specs;
   }
