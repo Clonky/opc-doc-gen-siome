@@ -2,7 +2,12 @@ table {
     width: 100%;
     border-collapse: collapse;
     font-family: Arial, sans-serif;
-    font-size: 14px;
+    font-size: 36;
+    border: 1px solid black;
+}
+
+thead:last-child {
+    border-bottom: 3px double black;
 }
 
 th,
@@ -15,21 +20,4 @@ td {
 th {
     font-weight: bold;
     text-align: center;
-}
-
-td:first-child {
-    font-weight: bold;
-}
-
-caption {
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-.headerrow {
-    border-bottom: 1px double #000;
-}
-
-.thick-border {
-    border-bottom: 3px solid #000;
 }
