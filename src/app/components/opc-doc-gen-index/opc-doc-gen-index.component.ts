@@ -16,8 +16,9 @@ export class OpcDocGenIndexComponent {
   };
   rendered_view = '';
   dl_link = '';
+  options: string[] = [];
 
-  constructor(private siomeApiProvider: SiomeApiProviderService) {}
+  constructor(private siomeApiProvider: SiomeApiProviderService) { }
 
   private get siomeApi(): ISiomeApi {
     return this.siomeApiProvider.siomeApi!;
@@ -45,8 +46,14 @@ export class OpcDocGenIndexComponent {
     return `<a href=${url} download>Download docx</a>`;
   }
 
+  async loadOptions() {
+    const nns = await this.siomeApi.getNamespaceArray();
+    this.options = nns;
+  }
+
   async onSubmit() {
     try {
+      this.options = await this.siomeApi.getNamespaceArray();
       await this.siomeApi.createLogNode('OPC Doc Gen Service');
       if (!this.formData.targetspec) throw Error('No target spec chosen');
       const target = this.formData.targetspec;
